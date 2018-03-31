@@ -1,5 +1,5 @@
 /*jshint esversion: 6 */
-require('./config/config');
+require('./config/config.js');
 const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
