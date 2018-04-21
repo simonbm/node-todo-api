@@ -249,3 +249,28 @@ describe('POST /users/login', () => {
             });
     });
 });
+
+describe('DELETE /users/me/token',() => {
+
+    it('should remove the access token on logout', (done) => {
+        request(app)
+            .del('/users/me/token')
+            .set('x-auth', users[0].tokens[0].token)
+            .expect(200)
+            .expect((res) => {
+                expect(res.body.email).toBe(users[0].email);
+                expect(res.body._id).toEqual(users[0]._id);
+            })
+            .end((err, response) => {
+                if (err) {
+                    return done(err);
+                }
+
+                User.findById(users[0]._id).then((user) => {
+                    expect(user.tokens.length).toBe(0);
+                    done();
+                }).catch((e) => done(e));
+        });
+    });
+
+});
